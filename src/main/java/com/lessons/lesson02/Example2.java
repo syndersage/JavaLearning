@@ -11,7 +11,7 @@ public class Example2 {
 
         var2 = var1 / 2;
 
-        System.out.println("Second variable is first variable divided by 2: ");
+        System.out.print("Second variable is first variable divided by 2: ");
         System.out.println(var2);
     }
 }
