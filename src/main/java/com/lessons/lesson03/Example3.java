@@ -3,9 +3,9 @@ package com.lessons.lesson03;
 public class Example3 {
     public static void main(String[] args) {
         int v;
-        double x;
+        float x;
         v = 10;
-        x = 10.0;
+        x = 10.0f;
         System.out.println("Original value of X: " + x);
         System.out.println("Original value of V: " + v);
         System.out.println();
