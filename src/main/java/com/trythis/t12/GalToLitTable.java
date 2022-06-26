@@ -19,5 +19,6 @@ public class GalToLitTable {
         for (int i = left; i < right; i++) {
             System.out.println(i + " gallons is " + i * 3.7854 + " litters");
         }
+        scan.close();
     }
 }

@@ -12,5 +12,6 @@ public class GalToLit {
         }
         double gallons = scan.nextInt();
         System.out.println(gallons + " gallons is " + gallons * 3.7854 + " litters");
+        scan.close();
     }
 }
