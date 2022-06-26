@@ -7,7 +7,7 @@ public class DistanceBySound {
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter time between you saw and heard (in seconds): ");
         if (scan.hasNextDouble()) {
-            System.out.println("The object in distant of " + scan.nextInt() * 335 + " meters");
+            System.out.println("The object is " + scan.nextInt() * 335 + " meters away");
         }
         scan.close();
     }
