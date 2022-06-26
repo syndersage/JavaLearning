@@ -1,4 +1,4 @@
-package com.lessons.lesson02;
+package com.randomtasks.lesson02;
 
 public class Example2 {
     public static void main(String[] args) {
