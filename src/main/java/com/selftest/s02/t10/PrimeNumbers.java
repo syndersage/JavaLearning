@@ -1,4 +1,4 @@
-package com.randomtasks;
+package com.selftest.s02.t10;
 
 public class PrimeNumbers {
     public static void main(String[] args) {
