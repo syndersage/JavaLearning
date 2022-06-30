@@ -82,10 +82,12 @@ class HelpDemoClass {
             do {
                 help.showMenu();
                 choice = (char) System.in.read();
-                char ignore;
-                do {
-                    ignore = (char) System.in.read();
-                } while (ignore != '\n');
+                if (choice != '\n') {
+                    char ignore;
+                    do {
+                        ignore = (char) System.in.read();
+                    } while (ignore != '\n');
+                }
             } while (!help.validClause(choice));
             if (choice == 'q') break;
             help.chosenClause(choice);
