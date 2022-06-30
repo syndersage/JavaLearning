@@ -1,13 +1,11 @@
-package com.trythis.t33;
+package com.trythis.c04.t01;
+
 
 import java.io.IOException;
 
-public class HelpMenu3 {
-    public static void main(String[] args) throws IOException {
-        char choice;
-        while (true) {
-            do {
-                System.out.print("""
+class Help {
+    void showMenu() {
+        System.out.print("""
                         
                         Help on:
                         \t1. if
@@ -18,23 +16,16 @@ public class HelpMenu3 {
                         \t6. break
                         \t7. continue
                         Choose one (press 'q' to exit):\s""");
-                char ignore;
-                choice = (char) System.in.read();
-                if (choice != '\n') {
-                    do {
-                        ignore = (char) System.in.read();
-                    } while (ignore != '\n');
-                }
-            } while ((choice < '1' || choice > '7') && choice != 'q');
-            if (choice == 'q') break;
-            switch (choice) {
-                case '1' -> System.out.print("""
+    }
+    void chosenClause(char clause) {
+        switch (clause) {
+            case '1' -> System.out.print("""
                                                 
                         The if:
                         if (conditional) statement
                         else statement
                         """);
-                case '2' -> System.out.print("""
+            case '2' -> System.out.print("""
 
                         The switch:
 
@@ -44,36 +35,58 @@ public class HelpMenu3 {
                         \t\tbreak;
                         \t//...}
                         """);
-                case '3' -> System.out.print("""
+            case '3' -> System.out.print("""
                                             
                         The for:
                         for (init; condition; iteration)
                         \tstatement;
                         """);
-                case '4' -> System.out.print("""
+            case '4' -> System.out.print("""
                                             
                         The while:
                         while (condition) statement;
                         """);
-                case '5' -> System.out.print("""
+            case '5' -> System.out.print("""
                                             
                         The do-while:
                         do {
                         \tstatement;
                         } while (condition);
                         """);
-                case '6' -> System.out.print("""
+            case '6' -> System.out.print("""
                                             
                         The break:
                         break; or break label;
                         """);
-                case '7' -> System.out.print("""
+            case '7' -> System.out.print("""
                                             
                         The continue:
                         continue; or continue label;
                         """);
-                default -> System.out.println("\nSelection not found");
-            }
+            default -> System.out.println("\nSelection not found");
+        }
+    }
+    boolean validClause(char clause) {
+        return (clause >= '1' && clause <= '7') || clause == 'q';
+    }
+}
+
+
+class HelpDemoClass {
+    public static void main(String[] args) throws IOException {
+        Help help = new Help();
+        char choice;
+        while (true) {
+            do {
+                help.showMenu();
+                choice = (char) System.in.read();
+                char ignore;
+                do {
+                    ignore = (char) System.in.read();
+                } while (ignore != '\n');
+            } while (!help.validClause(choice));
+            if (choice == 'q') break;
+            help.chosenClause(choice);
         }
     }
 }

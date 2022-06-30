@@ -1,4 +1,4 @@
-package com.trythis.t12;
+package com.trythis.c01.t12;
 
 import java.util.Scanner;
 

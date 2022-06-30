@@ -1,4 +1,4 @@
-package com.trythis.t21;
+package com.trythis.c02.t21;
 
 import java.util.Scanner;
 
