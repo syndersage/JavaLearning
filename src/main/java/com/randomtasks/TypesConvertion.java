@@ -29,5 +29,8 @@ public class TypesConvertion {
         System.out.println(((Object) ((int) d2 + 5.5)).getClass().getSimpleName());
         int a = (int) d2++;
         System.out.println(a + " " + d2);
+        int x = 10, y = 3;
+        double result = 10 / (double) 3;
+        System.out.println(result);
     }
 }
