@@ -1,8 +1,8 @@
-package com.randomtasks;
+package com.trythis.c05.t01;
 
 import java.util.Arrays;
 
-public class ArrayDemo {
+public class BubbleSorting {
     public static void main(String[] args) {
         int[] arr = {99, -10, 100123, 18, -978, 5623, 463, -9, 287, 49};
         int size = 10;
