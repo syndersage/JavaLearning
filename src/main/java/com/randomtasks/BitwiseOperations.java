@@ -14,7 +14,7 @@ class ShowBits {
     String getBits(long valueToShow) {
         String bitsAsString = "";
         int spacer = 0, spaceEveryNSymbols = 8;
-        for (long i = (1L << (maxBitsLength - 1)); i > 0; i >>>= 1, spacer++) {
+        for (var i = (1L << (maxBitsLength - 1)); i > 0; i >>>= 1, spacer++) {
             if (spacer == 8) {
                 bitsAsString = bitsAsString.concat(" ");
                 spacer = 0;
