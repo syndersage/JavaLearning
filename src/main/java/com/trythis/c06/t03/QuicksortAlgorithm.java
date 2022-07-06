@@ -8,33 +8,25 @@ class Quicksort {
     }
 
     private static void sorting(int[] arr, int left, int right) {
-        if (left < right) {
-            int splitIndex = partition(arr, left, right);
-            sorting(arr, left, splitIndex);
-            sorting(arr, splitIndex + 1, right);
-        }
-    }
-
-    private static int partition(int[] arr, int left, int right) {
+        int i = left, j = right;
         int splitValue = arr[(right + left) / 2];
-        while (left < right) {
-            if (arr[left] < splitValue) left++;
-            if (arr[right] > splitValue) right--;
-            if (arr[left] > arr[right]) swap(arr, left, right);
+        while (i < j) {
+            if (arr[i] < splitValue) i++;
+            if (arr[j] > splitValue) j--;
+            if (arr[i] > arr[j]) {
+                int temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+            }
         }
-        return right;
-    }
-
-    private static void swap(int[] arr, int index1, int index2) {
-        int temp = arr[index1];
-        arr[index1] = arr[index2];
-        arr[index2] = temp;
+        if (i > left) sorting(arr, left, j);
+        if (right > j) sorting(arr, j + 1, right);
     }
 }
 
 public class QuicksortAlgorithm {
     public static void main(String[] args) {
-        int[] arr = {2, 1, 3};
+        int[] arr = {27, 40, 7, 44, 8, 38, 11, 26};
         System.out.println(Arrays.toString(arr));
         Quicksort.quicksort(arr);
         System.out.println(Arrays.toString(arr));
