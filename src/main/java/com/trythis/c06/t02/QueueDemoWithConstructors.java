@@ -38,6 +38,12 @@ class Queue {
         System.arraycopy(arr, 0, this.arr, 0, arr.length);
         index = arr.length;
     }
+
+    Queue(Queue q) {
+        arr = new int[q.arr.length];
+        System.arraycopy(q.arr, 0, arr, 0, q.arr.length);
+        index = q.index;
+    }
 }
 
 class QueueMenu {
@@ -59,7 +65,8 @@ public class QueueDemoWithConstructors {
         Scanner scan = new Scanner(System.in);
         int choice;
         QueueMenu menu = new QueueMenu();
-        Queue queue = new Queue(new int[]{10, 20, 30}, 5);
+        Queue queue0 = new Queue(new int[]{10, 20, 30}, 5);
+        Queue queue = new Queue(queue0);
         while (true){
             do {
                 menu.showClauses();
