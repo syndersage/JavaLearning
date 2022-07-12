@@ -1,17 +1,5 @@
 package com.randomtasks.bookpack;
 
-class Book {
-    private final String title;
-
-    Book(String title) {
-        this.title = title;
-    }
-
-    public final void show() {
-        System.out.println(title);
-    }
-}
-
 public class BookDemo {
     public static void main(String[] args) {
         var books = new Book[3];
@@ -21,5 +9,17 @@ public class BookDemo {
         for (var book : books) {
             book.show();
         }
+    }
+}
+
+class Book {
+    private final String title;
+
+    Book(String title) {
+        this.title = title;
+    }
+
+    public final void show() {
+        System.out.println(title);
     }
 }
