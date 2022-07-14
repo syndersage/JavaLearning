@@ -1,9 +1,18 @@
 package com.randomtasks.series;
 
+import java.util.Arrays;
+
 interface DefaultSeries {
     void setStart(int start);
     int getNext();
     void restart();
+    default int[] getNextArray(int size) {
+        int[] arr = new int[size];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = getNext();
+        }
+        return arr;
+    }
 }
 
 interface DefaultDescription {
@@ -61,5 +70,8 @@ public class SeriesDemo {
         }
         System.out.println(series.getSeriesDescription());
         System.out.println(series.getPrevious());
+        System.out.println();
+        series.setStart(2);
+        System.out.println(Arrays.toString(series.getNextArray(5)));
     }
 }
