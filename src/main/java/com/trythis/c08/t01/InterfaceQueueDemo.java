@@ -6,10 +6,10 @@ import java.util.Scanner;
 interface Queue {
     int defaultStartIndex = 0;
     String defaultName = "Default";
-    void push(int x);
+    void push(int x) throws FullQueueException;
     default void emptyQueuePop() { System.out.println("Action failed! Queue is empty!"); }
     default void fullQueuePush() { System.out.println("Action failed! Queue is full!"); }
-    int pop();
+    int pop() throws EmptyQueueException;
     void resetQueue();
     String getQueueName();
 }
@@ -41,21 +41,19 @@ class LinearQueue implements Queue {
         this(arr, defaultName);
     }
 
-    public void push(int x) {
+    public void push(int x) throws FullQueueException {
         if (index == arr.length) {
-            fullQueuePush();
             validAction = false;
-            return;
+            throw new FullQueueException(arr.length);
         }
         arr[index++] = x;
         validAction = true;
     }
 
-    public int pop() {
+    public int pop() throws EmptyQueueException {
         if (index == 0) {
-            emptyQueuePop();
             validAction = false;
-            return -1;
+            throw new EmptyQueueException();
         }
         validAction = true;
         return arr[--index];
@@ -80,12 +78,14 @@ class LinearQueue implements Queue {
 class CircularQueue implements Queue {
     private final int[] arr;
     private int index;
+    private int poppedInARow;
     private final String name;
 
     CircularQueue(int size, String name) {
         arr = new int[size];
         index = 0;
         this.name = name;
+        this.poppedInARow = arr.length;
     }
 
     CircularQueue(int[] arr, String name) {
@@ -93,15 +93,23 @@ class CircularQueue implements Queue {
         System.arraycopy(arr, 0, this.arr, 0, arr.length);
         index = 0;
         this.name = name;
+        this.poppedInARow = arr.length;
     }
 
     public void push(int x) {
         if (index == arr.length) index = 0;
+        if (poppedInARow > 0) {
+            poppedInARow -= 1;
+        }
         arr[index++] = x;
     }
 
-    public int pop() {
+    public int pop() throws EmptyQueueException {
         if (index == 0) index = arr.length;
+        if (poppedInARow == arr.length) {
+            throw new EmptyQueueException();
+        }
+        poppedInARow += 1;
         return arr[--index];
     }
 
@@ -149,8 +157,8 @@ class DynamicQueue implements Queue {
         arr[index++] = x;
     }
 
-    public int pop() {
-        if (index == 0) return -1;
+    public int pop() throws EmptyQueueException {
+        if (index == 0) throw new EmptyQueueException();
         return arr[--index];
     }
 
@@ -184,11 +192,27 @@ class DecreaseAbleDynamicQueue extends DynamicQueue {
     }
 
     @Override
-    public int pop() {
-        if (index == 0) return -1;
+    public int pop() throws EmptyQueueException {
+        if (index == 0) throw new EmptyQueueException();
         var tempReturn = arr[--index];
         if (index == arr.length - change) decreaseQueue();
         return tempReturn;
+    }
+}
+
+class FullQueueException extends Exception {
+    private final int size;
+    FullQueueException(int size) {
+        this.size = size;
+    }
+    public String toString() {
+        return "Cannot push to queue. Queue is full! Max size: " + size;
+    }
+}
+
+class EmptyQueueException extends Exception {
+    public String toString() {
+        return "Cannot pop from queue. Queue is empty!";
     }
 }
 
@@ -251,17 +275,22 @@ public class InterfaceQueueDemo {
                 System.out.println("Quiting...");
                 break;
             }
-            switch (menuItem) {
-                case 1 -> {
-                    System.out.print("Enter integer value to add in " + queue.getQueueName() + " queue: ");
-                    queue.push(scan.nextInt());
+            try {
+                switch (menuItem) {
+                    case 1 -> {
+                        System.out.print("Enter integer value to add in " + queue.getQueueName() + " queue: ");
+                        queue.push(scan.nextInt());
+                    }
+                    case 2 -> {
+                        int popped = queue.pop();
+                        System.out.println("Obtained value from " + queue.getQueueName() + " queue: " + popped);
+                    }
+                    case 3 -> queue.resetQueue();
+                    default ->  System.out.println("Incorrect menu item!");
                 }
-                case 2 -> {
-                    int popped = queue.pop();
-                    System.out.println("Obtained value from " + queue.getQueueName() + " queue: " + popped);
-                }
-                case 3 -> queue.resetQueue();
-                default ->  System.out.println("Incorrect menu item!");
+            }
+            catch (FullQueueException | EmptyQueueException e) {
+                System.out.println(e);
             }
         }
     }
