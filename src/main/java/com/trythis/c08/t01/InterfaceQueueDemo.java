@@ -1,5 +1,6 @@
 package com.trythis.c08.t01;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
