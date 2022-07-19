@@ -1,7 +1,5 @@
 package com.randomtasks;
 
-import java.io.Serializable;
-
 interface TestA {
     default void meth() {
         System.out.println("A");

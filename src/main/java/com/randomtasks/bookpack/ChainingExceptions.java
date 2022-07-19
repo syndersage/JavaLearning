@@ -1,7 +1,5 @@
 package com.randomtasks.bookpack;
 
-import java.util.Arrays;
-
 class AException extends Exception {
     AException(Throwable thr) {
         super(thr);
