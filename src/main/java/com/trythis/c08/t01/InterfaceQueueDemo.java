@@ -42,7 +42,7 @@ class LinearQueue implements Queue {
         this(arr, defaultName);
     }
 
-    public void push(int x) throws FullQueueException {
+    public synchronized void push(int x) throws FullQueueException {
         if (index == arr.length) {
             validAction = false;
             throw new FullQueueException(arr.length);
@@ -51,7 +51,7 @@ class LinearQueue implements Queue {
         validAction = true;
     }
 
-    public int pop() throws EmptyQueueException {
+    public synchronized int pop() throws EmptyQueueException {
         if (index == 0) {
             validAction = false;
             throw new EmptyQueueException();
