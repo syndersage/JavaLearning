@@ -4,7 +4,7 @@ import com.randomtasks.enumerations.EnumDemo1;
 import com.randomtasks.multithreading.threadImplementsRunnable.MyThreadDemo;
 
 enum TrafficLight {
-    RED(5), GREEN(5), ORANGE_BEFORE_RED(2), ORANGE_BEFORE_GREEN(2);
+    ORANGE_BEFORE_RED(2), RED(5), ORANGE_BEFORE_GREEN(2), GREEN(5);
     private int time;
     public int getTime() {
         return time;
@@ -39,12 +39,7 @@ class TrafficLightController implements Runnable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        switch (light) {
-            case RED -> light = TrafficLight.ORANGE_BEFORE_GREEN;
-            case ORANGE_BEFORE_GREEN -> light = TrafficLight.GREEN;
-            case GREEN -> light = TrafficLight.ORANGE_BEFORE_RED;
-            case ORANGE_BEFORE_RED -> light = TrafficLight.RED;
-        }
+        light = TrafficLight.values()[(light.ordinal() + 1) % TrafficLight.values().length];
         change = true;
         notify();
     }
