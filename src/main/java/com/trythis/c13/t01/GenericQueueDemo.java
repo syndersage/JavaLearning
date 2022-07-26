@@ -3,27 +3,29 @@ package com.trythis.c13.t01;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-
+import java.util.InputMismatchException;
+import java.util.Locale;
+import java.util.Scanner;
 
 
 class QueueMenu {
     enum QueueMenuItems {
-        POP("Pop", "Put new item at the end of queue"), PUSH("Push", "Get first item from the queue"), CLEAR("Clear", "Remove all items from the queue"), ABILITIES("Description", "Get description about menu items");
+        POP("Pop", "Put new item at the end of queue"), PUSH("Push", "Get first item from the queue"), CLEAR("Clear", "Remove all items from the queue (i.e. make it empty)"), ABILITIES("Description", "Get description about menu items"), STOP("Stop", "Leave from queue redactor menu");
         private final String description;
         private final String nameToDisplay;
         QueueMenuItems(String nameToDisplay, String description) {
             this.nameToDisplay = nameToDisplay;
             this.description = description;
         }
-        public static QueueMenuItems getMenuItemByIndex(int index) throws IndexOutOfBoundsException {
-            if (index < QueueMenuItems.values().length && index >= 0) return QueueMenuItems.values()[index];
-            else throw new IndexOutOfBoundsException("Selection out of range!");
-        }
-        public static QueueMenuItems getMenuItemByIndex(String strIndex) throws IndexOutOfBoundsException, NumberFormatException {
-            int index = Integer.parseInt(strIndex);
-            if (index < QueueMenuItems.values().length && index >= 0) return QueueMenuItems.values()[index];
-            else throw new IndexOutOfBoundsException("Selection out of range!");
-        }
+//        public static QueueMenuItems getMenuItemByIndex(String strIndex) throws IndexOutOfBoundsException, NumberFormatException {
+//            int index = Integer.parseInt(strIndex);
+//            if (index < QueueMenuItems.values().length && index >= 0) return QueueMenuItems.values()[index];
+//            else throw new IndexOutOfBoundsException("Selection out of range!");
+//        }
+    }
+    public static QueueMenuItems getMenuItemByIndex(int index) throws IndexOutOfBoundsException {
+        if (index < QueueMenuItems.values().length && index >= 0) return QueueMenuItems.values()[index];
+        else throw new IndexOutOfBoundsException("Selection out of range!");
     }
     public static void getMenu(boolean withDescriptions) {
         for (int i = 0; i < QueueMenuItems.values().length; i++) {
@@ -35,6 +37,7 @@ class QueueMenu {
 interface IQueue<T> {
     void push(T item) throws FullQueueException;
     T pop() throws EmptyQueueException;
+    void clear();
 }
 
 class FullQueueException extends Exception {
@@ -82,26 +85,73 @@ class Queue<T extends Number> implements IQueue<T> {
         }
         else throw new FullQueueException(queue.length);
     }
+
+    @Override
+    public void clear() {
+        index = 0;
+    }
 }
 
 public class GenericQueueDemo {
     public static void main(String[] args) {
-        QueueMenu.getMenu(false);
         Double[] arr = {1.0, 5.0, 10.0, -0.09};
-        Queue<Double> queue = new Queue<>(arr);
-        try {
-            System.out.println(queue.pop());
-            System.out.println(queue.pop());
-            System.out.println(queue.pop());
-            System.out.println(queue.pop());
-            queue.push(100.0);
-            queue.push(15.1);
-            System.out.println(queue.pop());
-            System.out.println(queue.pop());
-            System.out.println(queue.pop());
-        }
-        catch (FullQueueException | EmptyQueueException e) {
-            System.out.println(e);
+        var queue = new Queue<>(arr);
+        Scanner scan = new Scanner(System.in);
+        scan.useLocale(Locale.ENGLISH);
+        boolean descriptions = false;
+        menuLoop:
+        {
+            while (true) {
+                QueueMenu.getMenu(descriptions);
+                System.out.print("Choose one: ");
+                descriptions = false;
+                QueueMenu.QueueMenuItems menuItem;
+                while (true) {
+                    try {
+                        menuItem = QueueMenu.getMenuItemByIndex(scan.nextInt() - 1);
+                        break;
+                    }
+                    catch (InputMismatchException e) {
+                        System.out.println("Incorrect input!");
+                        scan.next();
+                        QueueMenu.getMenu(descriptions);
+                        System.out.print("Choose one: ");
+                    }
+                    catch (IndexOutOfBoundsException e) {
+                        System.out.println(e.getMessage());
+                        QueueMenu.getMenu(descriptions);
+                        System.out.print("Choose one: ");
+                    }
+                    catch (Exception e) {
+                        break menuLoop;
+                    }
+                }
+                try {
+                    switch (menuItem) {
+                        case POP -> System.out.println("Obtained value: " + queue.pop());
+                        case PUSH -> {
+                            try {
+                                System.out.print("Enter value to add in queue: ");
+                                queue.push(scan.nextDouble());
+                            } catch (InputMismatchException e) {
+                                System.out.println("Incorrect input format for the queue!");
+                                scan.next();
+                            }
+                        }
+                        case CLEAR -> {
+                            queue.clear();
+                            System.out.println("Queue successfully cleared!");
+                        }
+                        case ABILITIES -> descriptions = true;
+                        case STOP -> {
+                            System.out.println("Quiting...");
+                            break menuLoop;
+                        }
+                    }
+                } catch (FullQueueException | EmptyQueueException e) {
+                    System.out.println("Queue error! " + e);
+                }
+            }
         }
     }
 }
