@@ -1,8 +1,6 @@
 package com.trythis.c13.t01;
 
 
-import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
